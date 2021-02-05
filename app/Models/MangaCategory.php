@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Chapter extends Model
+class MangaCategory extends Model
 {
     use HasFactory;
-    protected $table = 'chapters';
+    protected $table = 'manga_categories';
 
     // relationship
     public function manga() {
         return $this->belongsTo(Manga::class);
     }
-    public function details() {
-        return $this->hasMany(Detail::class);
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 }

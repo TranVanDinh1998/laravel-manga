@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GeneralAdminRequest;
 use App\Http\Requests\ValidatorRequest;
 use App\Models\Manga;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class MangaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidatorRequest $request)
+    public function store(GeneralAdminRequest $request)
     {
         //
         // $input = $request->all();

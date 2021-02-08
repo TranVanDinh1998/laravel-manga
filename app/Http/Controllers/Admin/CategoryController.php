@@ -3,10 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GeneralAdminRequest;
+use App\Http\Requests\ValidatorRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +22,10 @@ class CategoryController extends Controller
     public function index()
     {
         //
+        $categories = $this->category->getAllCategories()->paginate(10);
+        return view('admin.pages.category.index',[
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -25,6 +36,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('admin.pages.category.create');
     }
 
     /**
@@ -33,9 +45,13 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GeneralAdminRequest $request)
     {
-        //
+        $category = Category::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+        ]);
+        return back()->with('success','New category has been created.');
     }
 
     /**
@@ -58,6 +74,10 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
+        $category = Category::find($id);
+        return view('admin.pages.category.edit',[
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -67,9 +87,32 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GeneralAdminRequest $request, $id)
     {
         //
+        $category = Category::find($id)->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+        ]);
+        return back()->with('success','Category #'.$id.' has been updated.');
+    }
+
+
+    public function delete($id) {
+        $category = Category::find($id)->delete();
+        return back()->with('success','Category #'.$id.' has been removed.');
+    }
+
+    public function recycle() {
+        $categories = $this->category->getAllTrashedCategories()->paginate(10);
+        return view('admin.pages.category.recycle',[
+            'categories' => $categories,
+        ]);
+    }
+
+    public function restore($id) {
+        $category = Category::onlyTrashed()->find($id)->restore();
+        return back()->with('success','Category #'.$id.' has been restored.');
     }
 
     /**
@@ -81,5 +124,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+        $category = Category::onlyTrashed()->find($id)->forceDelete();
+        return back()->with('success','Category #'.$id.' has been permanently deleted.');
     }
 }

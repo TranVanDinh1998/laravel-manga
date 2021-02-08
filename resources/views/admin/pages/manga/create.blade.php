@@ -19,7 +19,6 @@
                     <div class="position-center">
                         <form method='POST' id="add_manga_form" 
                         action="{{route('admin.manga.store')}}"
-                        {{-- action="{{URL::to('administrator/mangas/store')}}" --}}
                             enctype='multipart/form-data'>
                             @csrf
                             <div id="errorMessage"></div>

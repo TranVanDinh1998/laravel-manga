@@ -21,17 +21,6 @@ class Category extends Model
         'verified',
         'deleted_at',
     ];
-    // 
-    // protected $attributes = [
-    //     'delayed' => false,
-    //     'created_at' => $current_timestamp,
-    //     'updated_at' => null,
-    //     'verified' => 1,
-    //     'deleted_at' => null,
-    // ];
-
-    // const $now = Carbon::now()->toDateTimeString();
-
 
     // relationship
     public function mangaCategories() {
@@ -47,20 +36,6 @@ class Category extends Model
     }
 
     /// get
-    // public function getNotDeleted() {
-    //     return $this->notDeleted();
-    // }
-    // public function getAllCategories() {
-    //     return $this->getNotDeleted();
-    // }
-
-    // public function getSoftDeleted() {
-    //     return $this->softDeleted();
-    // }
-    // public function getAllDeletedCategories() {
-    //     return $this->getSoftDeleted();
-    // }
-
     public function getAllCategories(){
         return $this->withoutTrashed();
     }

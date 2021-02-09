@@ -17,48 +17,56 @@
                 </div>
                 <div class="panel-body">
                     <div class="position-center">
-                        <form method='POST' id="add_manga_form" 
-                        action="{{route('admin.manga.store')}}"
+                        <form method='POST' id="add_manga_form" action="{{ route('admin.manga.store') }}"
                             enctype='multipart/form-data'>
                             @csrf
                             <div id="errorMessage"></div>
-                            @if (count($errors)>0)
+                            @if (count($errors) > 0)
                                 @foreach ($errors->all() as $error)
-                                    <p class="alert alert-danger">{{$error}}</p>
+                                    <p class="alert alert-danger">{{ $error }}</p>
                                 @endforeach
+                            @endif
+                            @if (session('success'))
+                                <p class="alert-success alert">{{ session('success') }}</p>
+                            @endif
+                            @if (session('error'))
+                                <p class="alert-danger alert">{{ session('error') }}</p>
                             @endif
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" name="name" value="{{old('name')}}" placeholder="name">
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}"
+                                    placeholder="name">
                             </div>
                             <div class="form-group">
                                 <label for="name">Alternative name</label>
-                                <input type="text" class="form-control" name="alter_name" value="{{old('alter_name')}}" placeholder="alter-name">
+                                <input type="text" class="form-control" name="alter_name" value="{{ old('alter_name') }}"
+                                    placeholder="alter-name">
                             </div>
                             <div class="form-group">
                                 <label for="image">Image:</label>
-                                <input type="file" class="form-control" id="image_selected" name="image" value="{{old('image')}}"
-                                    placeholder="Select image">
+                                <input type="file" class="form-control" id="image_selected" name="image"
+                                    value="{{ old('image') }}" placeholder="Select image">
                                 <p class="help-block">Only accept file .jpg, .png, .gif and < 5MB</p>
                                         <img id="image_tag" width="200px" height="auto;" class="img-responsive" src="">
                             </div>
                             <div class="form-group">
                                 <label for="">Description</label>
                                 <textarea id="descript" class="form-control" name="description"
-                                    placeholder="Password">{{old('description')}}</textarea>
+                                    placeholder="Password">{{ old('description') }}</textarea>
                                 <script>
                                     CKEDITOR.replace('descript');
+
                                 </script>
                             </div>
                             <div class="form-group">
                                 <label for="name">Author</label>
-                                <input type="text" class="form-control" value="{{old('author')}}" name="author" placeholder="author">
+                                <input type="text" class="form-control" value="{{ old('author') }}" name="author"
+                                    placeholder="author">
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Status:</label>
                                 <select class="form-control" name="status">
-                                    <option>Select status</option>
-                                    <option value="0">Ongoing</option>
+                                    <option value="0" selected>Ongoing</option>
                                     <option value="1">Complete</option>
                                 </select>
                             </div>

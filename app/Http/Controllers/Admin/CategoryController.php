@@ -23,7 +23,7 @@ class CategoryController extends Controller
     {
         //
         $categories = $this->category->getAllCategories()->paginate(10);
-        return view('admin.pages.category.index',[
+        return view('admin.pages.category.index', [
             'categories' => $categories,
         ]);
     }
@@ -51,7 +51,7 @@ class CategoryController extends Controller
             'name' => $request->input('name'),
             'description' => $request->input('description'),
         ]);
-        return back()->with('success','New category has been created.');
+        return back()->with('success', 'New category has been created.');
     }
 
     /**
@@ -75,7 +75,7 @@ class CategoryController extends Controller
     {
         //
         $category = Category::find($id);
-        return view('admin.pages.category.edit',[
+        return view('admin.pages.category.edit', [
             'category' => $category,
         ]);
     }
@@ -94,25 +94,45 @@ class CategoryController extends Controller
             'name' => $request->input('name'),
             'description' => $request->input('description'),
         ]);
-        return back()->with('success','Category #'.$id.' has been updated.');
+        return back()->with('success', 'Category #' . $id . ' has been updated.');
     }
 
-
-    public function delete($id) {
+    /**
+     * Softdelete the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
         $category = Category::find($id)->delete();
-        return back()->with('success','Category #'.$id.' has been removed.');
+        return back()->with('success', 'Category #' . $id . ' has been removed.');
     }
 
-    public function recycle() {
+
+    /**
+     * Display a listing of the softdeleted resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function recycle()
+    {
         $categories = $this->category->getAllTrashedCategories()->paginate(10);
-        return view('admin.pages.category.recycle',[
+        return view('admin.pages.category.recycle', [
             'categories' => $categories,
         ]);
     }
 
-    public function restore($id) {
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
         $category = Category::onlyTrashed()->find($id)->restore();
-        return back()->with('success','Category #'.$id.' has been restored.');
+        return back()->with('success', 'Category #' . $id . ' has been restored.');
     }
 
     /**
@@ -125,6 +145,6 @@ class CategoryController extends Controller
     {
         //
         $category = Category::onlyTrashed()->find($id)->forceDelete();
-        return back()->with('success','Category #'.$id.' has been permanently deleted.');
+        return back()->with('success', 'Category #' . $id . ' has been permanently deleted.');
     }
 }

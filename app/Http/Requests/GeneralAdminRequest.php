@@ -26,14 +26,16 @@ class GeneralAdminRequest extends FormRequest
         return [
             //
             'name' => 'required|max:255',
-            
+            'image' => 'mimes:jpg,jpeg,png,gif|max:500000',
         ];
     }
     public function messages()
     {
         return [
-            'name.required' => 'Name is required',
-            'name.max' => 'Name is too long', 
+            'name.required' => 'Name is required.',
+            'name.max' => 'Name is too long.', 
+            'image.mimes' => 'File is not an image.',
+            'image.max' => 'Image is too large.'
         ];
     }
 

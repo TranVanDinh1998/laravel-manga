@@ -69,7 +69,6 @@
                                             </label>
                                         </th>
                                         <th>ID</th>
-                                        <th>Image</th>
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th colspan="2">Action</th>

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Manga extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'mangas';
     protected $fillable = [
         'name',
@@ -34,29 +36,20 @@ class Manga extends Model
     }
 
     // scope
-    public function scopeNotDelete($q){
+    public function scopeNotDeleted($q){
         return $q->whereNull('deleted_at');
     }
-    public function scopeDelete($q){
+    public function scopeSoftDeleted($q){
         return $q->whereNotNull('deleted_at');
     }
-    public function scopeActive($q) {
-        return $q->whereVerified(1)->whereNull('deleted_at');
-    }
-    public function scopeDeactive($q){
-        return $q->whereVerified(0)->whereNull('deleted_at');
+
+    /// get
+    public function getAllMangas(){
+        return $this->withoutTrashed();
     }
 
-
-    // get
-    public function getNotDeleteMangas() {
-        return $this->notDelete()->get();
+    public function getAllTrashedMangas() {
+        return $this->onlyTrashed();
     }
-    // public function getActiveMangas(){
-    //     return $this->active()->get();
-    // }
-    // public function getDeactiveMangas() {
-    //     return $this->deactive()->get();
-    // }
     
 }

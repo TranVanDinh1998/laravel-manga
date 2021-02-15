@@ -104,9 +104,9 @@
                         <span>Mangas</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="">Management</a></li>
-                        <li><a href="">Add</a></li>
-                        <li><a href="">Recycle</a></li>
+                        <li><a href="{{route('admin.manga.index')}}">Management</a></li>
+                        <li><a href="{{route('admin.manga.create')}}">Add</a></li>
+                        <li><a href="{{route('admin.manga.recycle')}}">Recycle</a></li>
                     </ul>
                 </li>
                 <!--Category data -->
@@ -116,9 +116,9 @@
                         <span>Categories</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="">Management</a></li>
-                        <li><a href="">Add</a></li>
-                        <li><a href="">Recycle</a></li>
+                        <li><a href="{{route('admin.category.index')}}">Management</a></li>
+                        <li><a href="{{route('admin.category.create')}}">Add</a></li>
+                        <li><a href="{{route('admin.category.index')}}">Recycle</a></li>
                     </ul>
                 </li>
 

@@ -6,6 +6,16 @@ use Illuminate\Support\Str;
 
 class UploadImage
 {
+    public function massUpload($files, $path) {
+        foreach ($files as $file) {
+            $avatar = null;
+            $avatar = $this->getAvatar($file,$path);
+            $upload = $this->upload($file,$path,$avatar);
+            if (!$upload)
+                return false;
+        }
+        return true;
+    }
     public function upload($file, $path,$avatar)
     {
         return $file->storeAs($path, $avatar) ? true : false;

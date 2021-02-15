@@ -8,7 +8,7 @@
     <section id="main-content">
         <section class="wrapper">
             <ol class="breadcrumb">
-                <li><a href="">Mangas</a></li>
+                <li><a href="{{ route('admin.manga.index') }}">Mangas</a></li>
                 <li class="active">Add</li>
             </ol>
             <section class="panel">
@@ -17,21 +17,25 @@
                 </div>
                 <div class="panel-body">
                     <div class="position-center">
+                        @if (session('success'))
+                            <p class="alert-success alert">{{ session('success') }}</p>
+                        @endif
+                        @if (session('error'))
+                            <p class="alert-danger alert">{{ session('error') }}</p>
+                        @endif
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method='POST' id="add_manga_form" action="{{ route('admin.manga.store') }}"
                             enctype='multipart/form-data'>
                             @csrf
-                            <div id="errorMessage"></div>
-                            @if (count($errors) > 0)
-                                @foreach ($errors->all() as $error)
-                                    <p class="alert alert-danger">{{ $error }}</p>
-                                @endforeach
-                            @endif
-                            @if (session('success'))
-                                <p class="alert-success alert">{{ session('success') }}</p>
-                            @endif
-                            @if (session('error'))
-                                <p class="alert-danger alert">{{ session('error') }}</p>
-                            @endif
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}"
@@ -55,7 +59,6 @@
                                     placeholder="Password">{{ old('description') }}</textarea>
                                 <script>
                                     CKEDITOR.replace('descript');
-
                                 </script>
                             </div>
                             <div class="form-group">

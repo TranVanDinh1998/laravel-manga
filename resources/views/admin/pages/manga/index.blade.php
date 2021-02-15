@@ -6,32 +6,34 @@
         <section class="wrapper">
             <div class="table-agile-info">
                 <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Mangas
+                    <div class="panel-heading">
+                        Mangas
+                    </div>
+                    <div class="row w3-res-tb">
+                        <div class="col-sm-5 m-b-xs">
+                            <span class="btn-group">
+                                <a href="{{ route('admin.manga.index') }}" class="btn btn-sm btn-default"><i
+                                        class="fa fa-refresh"></i> Refresh</a>
+                                <a href="{{ route('admin.manga.create') }}" class="btn btn-sm btn-success"><i
+                                        class="fa fa-plus"></i> Add</a>
+                                <a href="{{ route('admin.manga.recycle') }}" class="btn btn-sm btn-danger"><i
+                                        class="fa fa-trash"></i> Recycle</a>
+                            </span>
                         </div>
-                        <div class="row w3-res-tb">
-                            <div class="col-sm-5 m-b-xs">
-                                <span class="btn-group">
-                                    <a href="" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i> Refresh</a>
-                                    <a href="" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Add</a>
-                                    <a href="" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Recycle</a>
-                                </span>
-                            </div>
-                            <div class="col-sm-2">
-                            </div>
-                            <div class="col-sm-5">
-                                <form enctype="multipart/form-data" method="GET"
-                                action="">
-                                    <div class="input-group">
-                                        <input type="text" class="input-sm form-control" value="{{ old('search') }}" name="search"
-                                        placeholder="Search">
-                                        <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-sm btn-default">Search</button>
-                                        </span>
-                                    </div>
-                                </form>
-                            </div>
+                        <div class="col-sm-2">
                         </div>
+                        <div class="col-sm-5">
+                            <form enctype="multipart/form-data" method="GET" action="">
+                                <div class="input-group">
+                                    <input type="text" class="input-sm form-control" value="{{ old('search') }}"
+                                        name="search" placeholder="Search">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm btn-default">Search</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <form method="GET" action="" enctype="multipart/form-data">
                         <div class="row w3-res-tb">
                             <div class="col-sm-5 m-b-xs">
@@ -72,6 +74,9 @@
                                         <th>Image</th>
                                         <th>Name</th>
                                         <th>Description</th>
+                                        <th>Created at</th>
+                                        <th>Updated at</th>
+                                        <th>Active</th>
                                         <th colspan="2">Action</th>
                                     </tr>
                                 </thead>
@@ -88,22 +93,50 @@
                                                 {{ $manga->id }}
                                             </td>
                                             <td>
-                                                <img width="200px;" height="auto" src="{{asset('/storage/images/mangas/'.$manga->image)}}">
+                                                <img width="200px;" height="auto"
+                                                    src="{{ asset('/storage/images/mangas/' . $manga->image) }}">
                                             </td>
                                             <td><span class="text-ellipsis">{{ $manga->name }}</span></td>
                                             <td><span class="text-ellipsis">
                                                     {!! $manga->description !!}
                                                 </span>
                                             </td>
+                                            <td>{{$manga->created_at}}</td>
+                                            <td>{{$manga->updated_at}}</td>
+                                            <td>
+                                                @if ($manga->verified == 0)
+                                                    <label class="alert alert-danger">No</label>
+                                                @else
+                                                    <label class="alert alert-success">Yes</label>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($manga->verified == 0)
+                                                    <a class="btn btn-success"
+                                                        href="{{ route('admin.manga.verify', ['id' => $manga->id, 'verified' => 1]) }}">
+                                                        <span class="glyphicon glyphicon-check"></span>
+                                                    </a>
+                                                @else
+                                                    <a class="btn btn-danger"
+                                                        href="{{ route('admin.manga.verify', ['id' => $manga->id, 'verified' => 0]) }}">
+                                                        <span class="glyphicon glyphicon-remove"></span>
+                                                    </a>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <a class="btn btn-info"
-                                                    href="{{ route('admin.manga.edit',['id'=>$manga->id]) }}">
+                                                    href="{{ route('admin.manga.edit', ['id' => $manga->id]) }}">
                                                     <span class="glyphicon glyphicon-edit"></span>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a
-                                                    href="{{ route('admin.manga.delete',['id'=>$manga->id]) }}"
+                                                <a class="btn btn-info"
+                                                    href="{{ route('admin.manga.chapter.index', ['id' => $manga->id]) }}">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.manga.delete', ['id' => $manga->id]) }}"
                                                     class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>
                                                 </a>
                                             </td>

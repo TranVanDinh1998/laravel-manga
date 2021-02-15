@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\RemoveImage;
 use App\Http\Helpers\UploadImage;
 // use app\Http\Helpers\UploadImage;
 use App\Http\Requests\GeneralAdminRequest;
+use App\Http\Requests\VerifyRequest;
 use App\Models\Manga;
 use Illuminate\Http\Request;
 
@@ -29,6 +31,23 @@ class MangaController extends Controller
             'mangas' => $mangas,
         ]);
     }
+    /**
+     * Verify an item.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function verify($id,$verified)
+    {
+        //
+        $verify = $this->manga->find($id)->update([
+            'verified' => $verified,
+        ]);
+        if ($verified == 0)
+            return back()->with('success', 'Manga #' . $id . ' has been deactivated .');
+        else
+            return back()->with('success', 'Manga #' . $id . ' has been activated.');
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -56,8 +75,8 @@ class MangaController extends Controller
         $avatar = null;
         if ($request->hasFile('image')) {
             $destination_path = 'public/images/mangas';
-            $avatar = $uploadImage->getAvatar($request->file('image'),$destination_path);
-            $result = $uploadImage->upload($request->file('image'),$destination_path,$avatar);
+            $avatar = $uploadImage->getAvatar($request->file('image'), $destination_path);
+            $result = $uploadImage->upload($request->file('image'), $destination_path, $avatar);
         }
         $manga = manga::create([
             'name' => $request->input('name'),
@@ -90,7 +109,10 @@ class MangaController extends Controller
     public function edit($id)
     {
         //
-        return view('admin.pages.manga.edit');
+        $manga = $this->manga->find($id);
+        return view('admin.pages.manga.edit', [
+            'manga' => $manga,
+        ]);
     }
 
     /**
@@ -100,14 +122,28 @@ class MangaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GeneralAdminRequest $request, $id, UploadImage $uploadImage)
     {
         //
-        $manga = Manga::find($id)->update([
+        $avatar = null;
+        $manga = $this->manga->find($id);
+        if ($request->hasFile('image')) {
+            $destination_path = 'public/images/mangas';
+            $avatar = $uploadImage->getAvatar($request->file('image'), $destination_path);
+            $result = $uploadImage->upload($request->file('image'), $destination_path, $avatar);
+        } else {
+            $avatar = $manga->image;
+        }
+        $manga = $manga->update([
             'name' => $request->input('name'),
+            'alter_name' => $request->input('alter_name'),
+            'image' => $avatar,
             'description' => $request->input('description'),
+            'author' => $request->input('author'),
+            'status' => $request->input('status'),
+            'verified' => $request->input('verified'),
         ]);
-        return back()->with('success', 'manga #' . $id . ' has been updated.');
+        return back()->with('success', 'Manga #' . $id . ' has been updated.');
     }
 
     /**
@@ -118,7 +154,7 @@ class MangaController extends Controller
      */
     public function delete($id)
     {
-        $manga = Manga::find($id)->delete();
+        $manga = $this->manga->find($id)->delete();
         return back()->with('success', 'manga #' . $id . ' has been removed.');
     }
 
@@ -144,7 +180,7 @@ class MangaController extends Controller
      */
     public function restore($id)
     {
-        $manga = Manga::onlyTrashed()->find($id)->restore();
+        $manga = $this->manga->onlyTrashed()->find($id)->restore();
         return back()->with('success', 'manga #' . $id . ' has been restored.');
     }
 
@@ -154,10 +190,13 @@ class MangaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, RemoveImage $removeImage)
     {
         //
-        $manga = Manga::onlyTrashed()->find($id)->forceDelete();
+        $manga = $this->manga->onlyTrashed()->find($id);
+        $destination_path = 'public/images/mangas';
+        $removeImage->remove($destination_path, $manga->image);
+        $manga->forceDelete();
         return back()->with('success', 'manga #' . $id . ' has been permanently deleted.');
     }
 }

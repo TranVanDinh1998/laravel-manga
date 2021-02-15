@@ -25,8 +25,8 @@ class GeneralAdminRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required|max:255',
-            'image' => 'mimes:jpg,jpeg,png,gif|max:500000',
+            'name' => 'max:255',
+            'image' => 'image|mimes:jpg,jpeg,png,gif|max:500000',
         ];
     }
     public function messages()
@@ -35,7 +35,8 @@ class GeneralAdminRequest extends FormRequest
             'name.required' => 'Name is required.',
             'name.max' => 'Name is too long.', 
             'image.mimes' => 'File is not an image.',
-            'image.max' => 'Image is too large.'
+            'image.max' => 'Image is too large.',
+            'image.required' => 'Image is required.'
         ];
     }
 

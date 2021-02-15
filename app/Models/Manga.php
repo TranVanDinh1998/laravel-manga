@@ -51,5 +51,9 @@ class Manga extends Model
     public function getAllTrashedMangas() {
         return $this->onlyTrashed();
     }
+
+    public function findTrashed($id) {
+        return $this->onlyTrashed()->find($id);
+    }
     
 }

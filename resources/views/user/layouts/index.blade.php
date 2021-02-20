@@ -211,7 +211,7 @@
     <script type="text/javascript"
         src="{{ url('admin2/files/bower_components/jquery-i18next/js/jquery-i18next.min.js') }}"></script>
     <!-- Custom js -->
-    <script src="{{ url('admin/files/assets/js/pcoded.min.js') }}"></script>
+    <script src="{{ url('admin2/files/assets/js/pcoded.min.js') }}"></script>
     <script src="{{ url('admin2/files/assets/js/menu/menu-hori-fixed.js') }}"></script>
     <script src="{{ url('admin2/files/assets/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script type="text/javascript" src="{{ url('admin2/files/assets/js/script.js') }}"></script>

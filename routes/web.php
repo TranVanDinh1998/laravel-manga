@@ -20,8 +20,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('user.pages.home');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.pages.home');
+});
+Route::get('/filter', function () {
+    return view('user.pages.filter');
+});
+Route::get('/manga', function () {
+    return view('user.pages.manga');
+});
+Route::get('/read', function () {
+    return view('user.pages.read');
+});
+Route::get('/search', function () {
+    return view('user.pages.search');
 });
 
 Route::prefix('administrator')->as('admin.')->namespace('Admin')->group(function (){
@@ -86,24 +101,5 @@ Route::prefix('administrator')->as('admin.')->namespace('Admin')->group(function
     // Route::resource('mangas',MangaController::class);
 });
 
-// Route::prefix('administrator2')->as('admin2.')->namespace('Admin2')->group(function (){
-//     Route::get('/', function() {
-//         return view('admin2.pages.dashboard.index');
-//     })->name('index');
-
-//     Route::prefix('mangas')->as('manga.')->group(function() {
-//         Route::get('/',[MangaController::class,'index'])->name('index');
-//         Route::get('/create',[MangaController::class,'create'])->name('create');
-//         Route::post('/',[MangaController::class,'store'])->name('store');
-//         Route::get('/{id}/edit',[MangaController::class,'edit'])->name('edit');
-//         Route::post('/{id}',[MangaController::class,'update'])->name('update');
-//         Route::get('/{id}/delete',[MangaController::class,'delete'])->name('delete');
-//         Route::get('/recycle',[MangaController::class,'recycle'])->name('recycle');
-//         Route::get('/{id}/restore',[MangaController::class,'restore'])->name('restore');
-//         Route::get('/{id}/destroy',[MangaController::class,'destroy'])->name('destroy');
-//     });
-
-//     // Route::resource('mangas',MangaController::class);
-// });
 
 

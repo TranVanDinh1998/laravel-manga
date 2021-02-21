@@ -25,7 +25,7 @@ class GeneralAdminRequest extends FormRequest
     {
         return [
             //
-            'name' => 'max:255',
+            'name' => 'required|max:255',
             'image' => 'image|mimes:jpg,jpeg,png,gif|max:500000',
         ];
     }

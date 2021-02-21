@@ -168,8 +168,6 @@
     <!-- Required Jquery -->
     <script type="text/javascript" src="{{ url('admin2/files/bower_components/jquery/js/jquery.min.js') }}">
     </script>
-
-    <!-- Required Jquery -->
     <script type="text/javascript" src="{{ url('admin2/files/bower_components/jquery-ui/js/jquery-ui.min.js') }}">
     </script>
     <script type="text/javascript" src="{{ url('admin2/files/bower_components/popper.js/js/popper.min.js') }}">

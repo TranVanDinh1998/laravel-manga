@@ -44,5 +44,12 @@ class Category extends Model
         return $this->onlyTrashed();
     }
 
+    // function
+    public function verify($id,$verified){
+        return  $this->find($id)->update([
+            'verified' => $verified,
+        ]);
+    }
+
     
 }
